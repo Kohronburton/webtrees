@@ -1,0 +1,74 @@
+<?php
+
+use Fisharebest\Webtrees\Contracts\ElementFactoryInterface;
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\Http\RequestHandlers\SiteTagsAction;
+use Fisharebest\Webtrees\I18N;
+
+/**
+ * @var array<string,array<string,ElementFactoryInterface>> $preferences
+ * @var string                                              $title
+ */
+
+?>
+
+<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), $title]]) ?>
+
+<h1><?= $title ?></h1>
+
+<form method="post" action="<?= e(route(SiteTagsAction::class)) ?>" class="form">
+    <?= csrf_field() ?>
+
+    <p>
+        <?= I18N::translate('The GEDCOM standard provides a large number of data-entry fields, called tags.') ?>
+        <br>
+        <?= I18N::translate('Some of these GEDCOM tags are used infrequently or never used.') ?>
+        <br>
+        <?= I18N::translate('You can simplify the edit forms by hiding GEDCOM tags that you do not use.') ?>
+    </p>
+
+    <?php foreach ($preferences as $heading => $sections) : ?>
+        <h2><?= $heading ?></h2>
+
+        <?php foreach ($sections as $subheading => $subsections) : ?>
+            <p><?= $subheading ?></p>
+
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr class="d-none">
+                        <th><?= I18N::translate('GEDCOM tag') ?></th>
+                        <th><?= I18N::translate('Description') ?></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($subsections as $preference => $element) : ?>
+                        <tr>
+                            <td class="w-25">
+                                <code><?= e($preference) ?></code>
+                            </td>
+                            <td class="w-50">
+                                <?= $element->label() ?>
+                            </td>
+                            <td class="w-25">
+                                <?= view('components/checkbox-inline', ['name' => $preference, 'label' => I18N::translate('hide')]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        <?php endforeach ?>
+    <?php endforeach ?>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+            <?= view('icons/save') ?>
+            <?= I18N::translate('save') ?>
+        </button>
+        <a class="btn btn-secondary" href="<?= e(route(ControlPanel::class)) ?>">
+            <?= view('icons/cancel') ?>
+            <?= I18N::translate('cancel') ?>
+        </a>
+    </div>
+</form>
