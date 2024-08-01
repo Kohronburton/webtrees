@@ -23,7 +23,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.3",
     "@fortawesome/free-solid-svg-icons": "5.15.3",
     "beautifymarker": "1.0.9",
-    "bootstrap": "4.6.0",
+    "bootstrap": "5.0.0",
     "corejs-typeahead": "1.3.1",
     "datatables.net-bs4": "1.10.25",
     "dejavu-fonts-ttf": "2.37.3",
